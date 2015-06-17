@@ -23,12 +23,10 @@ function KernelWatch (dir) {
   events.EventEmitter.call(self)
 
   var pattern = path.join(dir, "*.json")
-  console.log(pattern)
 
   self.gaze = new Gaze(pattern)
 
   self.gaze.on('all', function (event, filepath) {
-    console.log(filepath + ' was changed');
     if (isKernelJSON(filepath)) {
       fs.readFile(filepath, function (err, contents) {
         if (err) self.emit('error', err)
