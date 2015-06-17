@@ -1,0 +1,16 @@
+language: node_js
+
+node_js:
+ - "0.12"
+
+branches:
+# Using faster container based build environment.
+
+sudo: false
+
+before_script:
+ - npm install npm
+
+script:
+ - npm test
+
