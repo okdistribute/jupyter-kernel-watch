@@ -35,7 +35,7 @@ There should be more, but right now it just emits one event -- that's when the k
 
 ### kernelspec
 
-```
+```js
 watcher.on('kernelspec', function (kernelSpec) {
   // kernelSpec is the contents of the kernel.json as a JSON object
 })
