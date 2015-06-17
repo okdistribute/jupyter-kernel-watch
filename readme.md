@@ -11,6 +11,12 @@ Watches a jupyter kernel for you. Emits events when things are changed!
 ```js
 var KernelWatch = require('jupyter-kernel-watch')
 var watcher = KernelWatch('./test')
+
+watcher.on('kernelspec', function (kernelSpec) {
+  // kernelSpec is the contents of the kernel.json as a JSON object
+})
+
+watcher.close()
 ```
 
 ## API
