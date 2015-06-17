@@ -19,13 +19,9 @@ inherits(KernelWatch, events.EventEmitter)
 function KernelWatch (dir) {
   var self = this
   if (!(self instanceof KernelWatch)) return new KernelWatch(dir)
-
   events.EventEmitter.call(self)
-
   var pattern = path.join(dir, "*.json")
-
   self.gaze = new Gaze(pattern)
-
   self.gaze.on('all', function (event, filepath) {
     if (isKernelJSON(filepath)) {
       fs.readFile(filepath, function (err, contents) {
