@@ -4,10 +4,7 @@ Watches a jupyter kernel for you. Emits events when things are changed!
 
 [![NPM](https://nodei.co/npm/jupyter-kernel-watch.png)](https://nodei.co/npm/jupyter-kernel-watch/)
 
-
-Windows        | Mac/Linux
--------------- | ------------
-[![Build status](https://ci.appveyor.com/api/projects/status/s236036xnglo4v5l)](https://ci.appveyor.com/project/karissa/jupyter-kernel-watch) | [![Travis](http://img.shields.io/travis/karissa/jupyter-kernel-watch.svg?style=flat)](https://travis-ci.org/karissa/jupyter-kernel-watch)
+| [![Travis](http://img.shields.io/travis/karissa/jupyter-kernel-watch.svg?style=flat)](https://travis-ci.org/karissa/jupyter-kernel-watch)
 
 
 
