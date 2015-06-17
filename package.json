@@ -23,7 +23,9 @@
   "homepage": "https://github.com/karissa/jupyter-kernel-watch",
   "dependencies": {
     "gaze": "^0.5.1",
-    "inherits": "^2.0.1",
+    "inherits": "^2.0.1"
+  },
+  "devDependencies": {
     "tape": "^4.0.0"
   }
 }
