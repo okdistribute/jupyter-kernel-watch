@@ -2,6 +2,7 @@ var fs = require('fs')
 var Gaze = require('gaze').Gaze
 var inherits = require('inherits')
 var events = require('events')
+var debug = require('debug')('jupyter-kernel-watch')
 var path = require('path')
 
 function isKernelJSON (filepath) {
@@ -16,25 +17,56 @@ function isKernelJSON (filepath) {
 module.exports = KernelWatch
 inherits(KernelWatch, events.EventEmitter)
 
-function KernelWatch (dir) {
+function KernelWatch (dirs) {
   var self = this
-  if (!(self instanceof KernelWatch)) return new KernelWatch(dir)
+  if (!(self instanceof KernelWatch)) return new KernelWatch(dirs)
   events.EventEmitter.call(self)
-  var pattern = path.join(dir, "*.json")
+
+  self.kernelspecs = []
+
   self.gaze = new Gaze(pattern)
-  self.gaze.on('all', function (event, filepath) {
+
+  for (var i in dirs) {
+    var pattern = path.join(dirs[i], "**/*.json")
+    self.gaze.add(pattern)
+    debug('added', pattern)
+  }
+
+  self.gaze.on('deleted', function (filepath) {
     if (isKernelJSON(filepath)) {
-      fs.readFile(filepath, function (err, contents) {
-        if (err) self.emit('error', err)
-        try {
-          contents = JSON.parse(contents.toString())
-          self.emit('kernelspec', contents)
-        } catch (err) {
-          self.emit('error', err)
+      for (var i in self.kernelspecs) {
+        if (self.kernelspecs.filepath === filepath) {
+          delete self.kernelspecs[i]
         }
-      })
+      }
     }
   })
+
+  self.gaze.on('changed', function (event, filepath) {
+    self.updateKernel(filepath)
+  })
+
+  self.gaze.on('all', function (event, filepath) {
+    self.updateKernel(filepath)
+  })
+
+}
+
+KernelWatch.prototype.updateKernel = function (filepath) {
+  var self = this
+
+  if (isKernelJSON(filepath)) {
+    fs.readFile(filepath, function (err, contents) {
+      if (err) self.emit('error', err)
+      try {
+        contents = JSON.parse(contents.toString())
+        self.kernelspecs.push({filepath: filepath, data: contents})
+        self.emit('kernelspecs', self.kernelspecs)
+      } catch (err) {
+        self.emit('error', err)
+      }
+    })
+  }
 }
 
 KernelWatch.prototype.close = function () {
