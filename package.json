@@ -1,6 +1,6 @@
 {
   "name": "jupyter-kernel-watch",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "watch a jupyter kernel",
   "main": "index.js",
   "scripts": {
