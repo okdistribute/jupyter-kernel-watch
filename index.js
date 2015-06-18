@@ -13,6 +13,7 @@ module.exports = function (dirs) {
 
   var opts = {
     read: true,
+    parse: true,
     valid: isKernelJSON,
   }
 
