@@ -23,8 +23,7 @@ function KernelWatch (dirs) {
   events.EventEmitter.call(self)
 
   self.kernelspecs = []
-
-  self.gaze = new Gaze(pattern)
+  self.gaze = new Gaze()
 
   for (var i in dirs) {
     var pattern = path.join(dirs[i], "**/*.json")
