@@ -12,7 +12,7 @@ Watches jupyter kernel directories for you.
 var KernelWatch = require('jupyter-kernel-watch')
 var watcher = KernelWatch(['/path/to/kernels', '/another/path/to/.jupyter/kernels'])
 
-watcher.on('kernelspecs', function (kernelSpecs) {
+watcher.on('data', function (kernelSpecs) {
   // kernelSpecs is a list of the contents of the kernel.json as a JSON object
   // e.g. [
   // {
@@ -46,7 +46,7 @@ There should be more, but right now it just emits one event -- that's when the k
 ### kernelspecs
 
 ```js
-watcher.on('kernelspecs', function (kernelSpecs) {
+watcher.on('data', function (kernelSpecs) {
   // list of kernelspecs
 })
 ```
