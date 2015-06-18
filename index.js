@@ -12,7 +12,7 @@ function isKernelJSON (filepath) {
 
 /**
  * @class KernelWatch
- * @classdesc Watches a Jupyter kernel runtime directory for changes, calling cb on change
+ * @classdesc Watches Jupyter kernel directories.
  */
 module.exports = KernelWatch
 inherits(KernelWatch, events.EventEmitter)
