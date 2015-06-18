@@ -1,10 +1,10 @@
 {
   "name": "jupyter-kernel-watch",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "watch a jupyter kernel",
   "main": "index.js",
   "scripts": {
-    "test": "node test.js"
+    "test": "node test/test.js"
   },
   "repository": {
     "type": "git",

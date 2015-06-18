@@ -1,6 +1,7 @@
 var test = require('tape')
 var fs = require('fs')
-var kernelWatch = require('./')
+var kernelWatch = require('../')
+var path = require('path')
 
 var kernel = {
  "display_name": "Python 2",
@@ -33,7 +34,7 @@ var kernelR = {
 test('kernel.json changes trigger with multiple folders', function (t) {
   t.plan(9)
 
-  var watcher = kernelWatch(['./kernels', './kernels2'])
+  var watcher = kernelWatch([path.join(__dirname, 'kernels'), path.join(__dirname, 'kernels2')])
   var times = 0
 
   watcher.on('kernelspecs', function (kernelSpecs) {
@@ -56,16 +57,15 @@ test('kernel.json changes trigger with multiple folders', function (t) {
 
     if (times === 3) watcher.close()
   })
-
-  fs.writeFile('kernels/python/kernel.json', JSON.stringify(kernel), function (err){
+  fs.writeFile(path.join(__dirname, 'kernels/python/kernel.json'), JSON.stringify(kernel), function (err){
     t.error(err)
   })
 
-  fs.writeFile('kernels/scala/kernel.json', JSON.stringify(kernelS), function (err){
+  fs.writeFile(path.join(__dirname, 'kernels/scala/kernel.json'), JSON.stringify(kernelS), function (err){
     t.error(err)
   })
 
-  fs.writeFile('kernels2/R/kernel.json', JSON.stringify(kernelR), function (err){
+  fs.writeFile(path.join(__dirname, 'kernels2/R/kernel.json'), JSON.stringify(kernelR), function (err){
     t.error(err)
   })
 

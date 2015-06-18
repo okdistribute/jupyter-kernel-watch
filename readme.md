@@ -1,6 +1,6 @@
 # jupyter-kernel-watch
 
-Watches a jupyter kernel for you. Emits events when things are changed!
+Watches jupyter kernel directories for you.
 
 [![NPM](https://nodei.co/npm/jupyter-kernel-watch.png)](https://nodei.co/npm/jupyter-kernel-watch/)
 
@@ -10,10 +10,17 @@ Watches a jupyter kernel for you. Emits events when things are changed!
 
 ```js
 var KernelWatch = require('jupyter-kernel-watch')
-var watcher = KernelWatch('./test')
+var watcher = KernelWatch(['/path/to/kernels', '/another/path/to/.jupyter/kernels'])
 
-watcher.on('kernelspec', function (kernelSpec) {
-  // kernelSpec is the contents of the kernel.json as a JSON object
+watcher.on('kernelspecs', function (kernelSpecs) {
+  // kernelSpecs is a list of the contents of the kernel.json as a JSON object
+  // e.g. [
+  // {
+  //   "filepath": "/path/to/kernels/python/kernel.json",
+  //   "data": { "display_name": "Python 2", "language": "python", "argv": [ etc...]}
+  //  }
+  // ]
+  //
 })
 
 watcher.close()
@@ -21,14 +28,14 @@ watcher.close()
 
 ## API
 
-### KernelWatch(dir)
+### KernelWatch(dirs)
 
 Returns a watcher
 
-`dir`: the directory to watch
+`dirs`: the directories to watch
 
 
-### watcher.close
+### watcher.close()
 
 Closes the watcher -- stops watching the filesystem.
 
@@ -36,11 +43,11 @@ Closes the watcher -- stops watching the filesystem.
 
 There should be more, but right now it just emits one event -- that's when the kernel spec (`kernel.json`) has changed.
 
-### kernelspec
+### kernelspecs
 
 ```js
-watcher.on('kernelspec', function (kernelSpec) {
-  // kernelSpec is the contents of the kernel.json as a JSON object
+watcher.on('kernelspecs', function (kernelSpecs) {
+  // list of kernelspecs
 })
 ```
 
