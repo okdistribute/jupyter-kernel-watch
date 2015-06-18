@@ -1,8 +1,4 @@
-var fs = require('fs')
-var Gaze = require('gaze').Gaze
-var inherits = require('inherits')
-var events = require('events')
-var debug = require('debug')('jupyter-kernel-watch')
+var gazeCollect = require('gaze-collect')
 var path = require('path')
 
 function isKernelJSON (filepath) {
@@ -10,64 +6,15 @@ function isKernelJSON (filepath) {
   return name === 'kernel.json'
 }
 
-/**
- * @class KernelWatch
- * @classdesc Watches Jupyter kernel directories.
- */
-module.exports = KernelWatch
-inherits(KernelWatch, events.EventEmitter)
-
-function KernelWatch (dirs) {
-  var self = this
-  if (!(self instanceof KernelWatch)) return new KernelWatch(dirs)
-  events.EventEmitter.call(self)
-
-  self.kernelspecs = []
-  self.gaze = new Gaze()
-
+module.exports = function (dirs) {
   for (var i in dirs) {
-    var pattern = path.join(dirs[i], "**/*.json")
-    self.gaze.add(pattern)
-    debug('added', pattern)
+    dirs[i] = path.join(dirs[i], "**/*.json")
   }
 
-  self.gaze.on('deleted', function (filepath) {
-    if (isKernelJSON(filepath)) {
-      for (var i in self.kernelspecs) {
-        if (self.kernelspecs.filepath === filepath) {
-          delete self.kernelspecs[i]
-        }
-      }
-    }
-  })
-
-  self.gaze.on('changed', function (event, filepath) {
-    self.updateKernel(filepath)
-  })
-
-  self.gaze.on('all', function (event, filepath) {
-    self.updateKernel(filepath)
-  })
-
-}
-
-KernelWatch.prototype.updateKernel = function (filepath) {
-  var self = this
-
-  if (isKernelJSON(filepath)) {
-    fs.readFile(filepath, function (err, contents) {
-      if (err) self.emit('error', err)
-      try {
-        contents = JSON.parse(contents.toString())
-        self.kernelspecs.push({filepath: filepath, data: contents})
-        self.emit('kernelspecs', self.kernelspecs)
-      } catch (err) {
-        self.emit('error', err)
-      }
-    })
+  var opts = {
+    contents: true,
+    valid: isKernelJSON,
   }
-}
 
-KernelWatch.prototype.close = function () {
-  this.gaze.close()
+  return gazeCollect(dirs, opts)
 }

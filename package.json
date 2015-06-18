@@ -22,11 +22,10 @@
   },
   "homepage": "https://github.com/karissa/jupyter-kernel-watch",
   "dependencies": {
-    "debug": "^2.2.0",
-    "gaze": "^0.5.1",
-    "inherits": "^2.0.1"
+    "gaze-collect": "^1.0.1"
   },
   "devDependencies": {
+    "rimraf": "^2.4.0",
     "tape": "^4.0.0"
   }
 }
