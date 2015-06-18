@@ -1,7 +1,7 @@
 {
   "name": "jupyter-kernel-watch",
   "version": "2.0.2",
-  "description": "watch a jupyter kernel",
+  "description": "get the kernels for jupyter asthey change",
   "main": "index.js",
   "scripts": {
     "test": "node test/test.js"
